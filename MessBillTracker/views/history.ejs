@@ -1,0 +1,65 @@
+<% records.reverse() %>
+<% 
+      var months=new Array();
+      months[0]="Jan";
+      months[1]="Feb";
+      months[2]="Mar";
+      months[3]="Apr";
+      months[4]="May";
+      months[5]="Jun";
+      months[6]="Jul";
+      months[7]="Aug";
+      months[8]="Sep";
+      months[9]="Oct";
+      months[10]="Nov";
+      months[11]="Dec";
+      var monthno=new Date().getMonth();
+      var thismonth=months[new Date().getMonth()];
+      var prevmon=0;
+      var prevprevmon=0;
+
+    
+
+      for(let i=0;i < records.length ;i++)
+				{ 
+					if(records[i].date.toString().substring(4,7)===months[((monthno-1)%12+12)%12])
+					{
+							prevmon=prevmon+records[i].amount
+                    }
+                    if(records[i].date.toString().substring(4,7)===months[((monthno-2)%12+12)%12])
+					{
+							prevprevmon=prevprevmon+records[i].amount
+					}
+                }
+    %>
+<h1 class="mt-4">History</h1>
+<p class="lead mb-3">Welcome <%= name %></p>
+<a href="/Dashboard" class="btn btn-secondary">Home</a>
+<a href="/users/history" class="btn btn-secondary">History</a>
+<a href="/users/about" class="btn btn-secondary">About</a>
+<a href="/users/logout" class="btn btn-secondary">logout</a>
+<div class="inc-exp-container">
+    <div>
+      <h4><%= months[((monthno-1)%12+12)%12] %></h4>
+      <p id="money-plus" class="money plus">
+        
+            
+      Rs. <%= prevmon %>
+      </p>
+    </div>
+    <div>
+      <h4><%= months[((monthno-2)%12+12)%12] %></h4>
+      <p id="money-plus" class="money plus">
+        Rs. <%= prevprevmon %>
+      </p>
+    </div>
+  </div>
+<ul id="list" class="list">
+		
+    <% for(let i=0;i < records.length;i++){ %>
+        <li class="plus">
+            <span>Rs.<%= records[i].amount %> </span><span style="margin-left: 15px;">"<%= records[i].status %>  "</span> <%= records[i].date.toString().substring(0,25) %>
+            
+          </li>
+        <% } %>
+</ul>

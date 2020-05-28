@@ -1,0 +1,226 @@
+<h1 class="mt-4">Dashboard</h1>
+<p class="lead mb-3">Welcome <%= name %></p>
+<a href="/Dashboard" class="btn btn-secondary">Home</a>
+<a href="/users/history" class="btn btn-secondary">History</a>
+<a href="/users/about" class="btn btn-secondary">About</a>
+<a href="/users/logout" class="btn btn-secondary">logout</a>
+
+<!---------------------->
+<!--
+<div class="header" style="text-align: left;">
+	<h2>MUKKANI MESS BILL PORTAL</h2>
+	<h3><%= name %></h5>
+
+</div>
+<div>
+	<h4>Your Balance</h4>
+	<h1 id="balance">Rs{total}</h1>
+</div>
+<div className="inc-exp-container">
+	<div>
+	  <h4>Income</h4>
+	  <p id="money-plus" className="money plus">+Rs{income}</p>
+	</div>
+	<div>
+	  <h4>Expense</h4>
+	  <p id="money-minus" className="money minus">-Rs{expense}</p>
+	</div>
+  </div>
+-->
+	<hr>
+	<h2>Bill Tracker</h2>
+
+    <div class="container" style="padding-top:10px">
+	  <h4 style="color: black;">This Month Bill</h4>
+	  <% records.reverse() %>
+	  <% 
+			var months=new Array();
+			months[0]="Jan";
+			months[1]="Feb";
+			months[2]="Mar";
+			months[3]="Apr";
+			months[4]="May";
+			months[5]="Jun";
+			months[6]="Jul";
+			months[7]="Aug";
+			months[8]="Sep";
+			months[9]="Oct";
+			months[10]="Nov;";
+			months[11]="Dec"
+			var thismonth=months[new Date().getMonth()]
+			var max=-10;
+			var maxdate,mindate;
+			var min=100000;
+			var maxsum=0;
+			var minsum=0
+			var sum=0;
+			for(let i=0;i < records.length ;i++)
+				{ 
+					if(records[i].date.toString().substring(4,7)===thismonth)
+					{
+							sum=sum+records[i].amount
+							if(records[i].amount>=max)
+							{
+								max=records[i].amount;
+								maxdate=records[i].date.toString().substring(0,11);
+							}
+							if(records[i].amount<=min)
+							{
+								min=records[i].amount;
+								mindate=records[i].date.toString().substring(0,11);
+							}
+					}
+				}
+			if(max==-10 && min==100000){
+			maxsum=0;
+			minsum=0;}
+			else{
+				maxsum=max;
+				minsum=min
+			}
+			%>
+      <h1 id="balance" style="color:blueviolet">
+		  Rs.<%= sum %>
+	  </h1>
+
+      <div class="inc-exp-container">
+        <div>
+          <h4>Maximum</h4>
+          <p id="money-plus" class="money plus">
+			
+				
+			Rs.<%= maxsum %> <br> <%= maxdate %>
+		  </p>
+        </div>
+        <div>
+          <h4>Minimum</h4>
+          <p id="money-minus" class="money minus">
+			  Rs.<%= minsum %> <br> <%= mindate %>
+		  </p>
+        </div>
+      </div>
+      <ul id="list" class="list">
+        <!-- <li class="minus">
+          Cash <span>-$400</span><button class="delete-btn">x</button>
+        </li> -->
+	  </ul>
+	</div>
+	<hr>
+	<div>
+        <h3>History</h3>
+    <ul id="list" class="list">
+		
+		<% for(let i=0;i < records.length && i<=10;i++){ %>
+			<li class="plus">
+				<span style="margin-left: 15px;">Rs.<%= records[i].amount %></span><span><%= records[i].date.toString().substring(0,25) %></span style="float:right">
+				
+			  </li>
+			<% } %>
+    </ul>
+</div>
+
+<div class="middle">
+	<h3>Add Items</h3>
+	<pre style="display: inline;font-size: 20px"><u>Items-Quantity</u></pre><br><br>
+	<input type="checkbox" name="item" value="45">Meals
+	<input id="1" type="text" name="quantity"  value="0">
+	<br><br>
+	<input type="checkbox" name="item" value="10">FullBoil<span id="spn" style="padding: 0px;">
+	<input id="2" type="text" name="quantity" value="0" class="texjtboxinform"></span><br><br>
+	<input type="checkbox" name="item" value="10">Omlette<span id="spn" style="padding: 0px;">
+	<input id="3" type="text" name="quantity" value="0"  ></span>
+	<br><br>
+	<input type="checkbox" name="item" value="10">Halfboil<span id="spn" style="padding: 0px;">
+	<input id="4" type="text" name="quantity" value="0"  ></span>
+	<br><br>
+	<input type="checkbox" name="item" value="7">Baadam milk<span id="spn" style="padding: 0px;">
+	<input id="5" type="text" name="quantity" value="0"  ></span>
+	<br><br>
+	<input type="checkbox" name="item" value="15">Poriyal<span id="spn" style="padding: 0px;">
+	<input id="6" type="text" name="quantity" value="0"  ></span>
+	<br><br>
+	<input type="checkbox" name="item" value="50">Egg Rice<span id="spn" style="padding: 0px;">
+	<input id="7" type="text" name="quantity" value="0"  ></span>
+	<br><br>
+	<input type="checkbox" name="item" value="50">Tomato Rice<span id="spn" style="padding: 0px;">
+	<input id="8" type="text" name="quantity" value="0"  ></span>
+    <br><br>
+	<form method="POST" action="/users/upload">
+        <input type="hidden" class="name" id="name" name="name" value=<%= name %> >
+        <input type="hidden" class="email" id="email" name="email" value=<%= email %> >
+	<h5 style="display: inline;color: cornflowerblue;"><u>TOTAL</u>=</h5><h4 id="amount1"  style="display: inline;"></h4><br>
+	<input type="hidden" class="amount" id="amount" name="amount">
+	<!--<h5>Status=</h5><input id="status" class="status" type="text" name="amount" ><br><br>-->
+	<h5 style="display: inline;color: cornflowerblue;"><u>STATUS</u>=</h5><h4 id="status1" style="display: inline;"></h4><br><br>
+	<input type="hidden" class="status" id="status" name="status">
+	<button type="button" onclick="calc()" class="btn btn-primary" style="width:40%">Calculate</button>
+	<button type="submit"  value="submit" class="btn btn-primary" style="width:40%">Enter</button>
+	</form> 
+</div>
+	<script>
+		var clicked=0;
+		function calc()
+		{
+			clicked=1;
+			var bill=0;
+			var av=document.getElementsByName("item");
+			var str="";
+			var itemname;
+			for(var i=0;i<av.length;i++){
+			if(av[i].checked==true)
+			{
+				
+				if(document.getElementById(i+1).value==0)
+				{
+					document.getElementById(i+1).value=1;
+				}
+				var no=document.getElementById(i+1).value;
+				if(i==0)
+				{
+					itemname="Meals";
+				}
+				else if(i==1)
+				{
+					itemname="FullBoil";
+				}
+				else if(i==2)
+				{
+					itemname="Omlette";
+				}
+				else if(i==3)
+				{
+					itemname="Halfboil";
+				}
+				else if(i==4)
+				{
+					itemname="Baadam";
+				}
+				else if(i==5)
+				{
+					itemname="Poriyal";
+				}
+				else if(i==6)
+				{
+					itemname="Egg Rice";
+				}
+				else
+				{
+					itemname="Tomato Rice";
+				}
+				str=str+" "+no+" "+itemname;
+				//console.log(str);
+				bill=bill+(parseInt(av[i].value)*parseInt(document.getElementById(i+1).value));
+			}}
+			document.getElementById("status1").innerHTML=str;
+			document.getElementById("amount1").innerHTML=bill;
+			document.getElementById("status").value=str;
+			document.getElementById("amount").value=bill;
+		}
+		function ck()
+		{
+			if(clicked===0)
+			{
+				alert("first press calculate")
+			}
+		}
+	</script>
